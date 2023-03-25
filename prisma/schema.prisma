@@ -14,9 +14,9 @@ model User {
   updatedAt DateTime  @updatedAt
   email     String?   @unique
   image     String?
-  firstName String
-  lastName  String
-  companyId Int
+  firstName String?
+  lastName  String?
+  companyId Int?
   Company   Company[]
 }
 
