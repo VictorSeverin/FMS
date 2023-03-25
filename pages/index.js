@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { useUser } from '@auth0/nextjs-auth0/client';
-
+import Link from 'next/link';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -20,7 +20,16 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-          <a href="/api/auth/login">Login</a>
+            <Link
+              href="/api/auth/login"
+            >
+              Login
+            </Link>
+            <Link
+              href="/api/auth/logout"
+            >
+              logout
+            </Link>
           </p>
           <div>
             <a
@@ -69,7 +78,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              {user.email}
+              {/* {user.email ? user.email : <p>Email</p>} */}
             </h2>
             <p className={inter.className}>
               Find in-depth information about Next.js features and&nbsp;API.
@@ -83,7 +92,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-            {user.name}
+              {/* {user.name ? user.name : <p>Email</p>} */}
             </h2>
             <p className={inter.className}>
               Learn about Next.js in an interactive course with&nbsp;quizzes!
