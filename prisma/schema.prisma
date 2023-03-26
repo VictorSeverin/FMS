@@ -21,11 +21,55 @@ model User {
 }
 
 model Company {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
   companyName    String
   companyAddress String
   OwnerID        Int
-  User           User     @relation(fields: [OwnerID], references: [id])
+  User           User      @relation(fields: [OwnerID], references: [id])
+  Driver         Driver[]
+  Freight        Freight[]
+  Truck          Truck[]
+}
+
+model Driver {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  firstName  String
+  lastName   String
+  companyId  Int
+  miles      Int?
+  deliveries Int?
+  company    Company   @relation(fields: [companyId], references: [id])
+  Freight    Freight[]
+}
+
+model Truck {
+  model       String
+  make        String
+  year        Int
+  color       String
+  trailerType String
+  id          Int     @id @default(autoincrement())
+  companyID   Int
+  company     Company @relation(fields: [companyID], references: [id])
+}
+
+model Freight {
+  id             Int      @id @default(autoincrement())
+  pickupDate     DateTime
+  dropDate       DateTime
+  pickupTime     DateTime
+  dropTime       DateTime
+  broker         String
+  pickupLocation String
+  dropLocation   String
+  commodity      String
+  weight         Float
+  driverId       Int
+  companyId      Int
+  Company        Company  @relation(fields: [companyId], references: [id])
+
+  Driver Driver @relation(fields: [driverId], references: [id])
 }

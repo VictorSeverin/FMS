@@ -14,7 +14,7 @@ export default function Sidebar() {
     }, []);
     const { user, error, isLoading } = useUser();
     return (
-        <aside className="flex w-full max-w-xs flex-col justify-between shadow-inner border-slate-400">
+        <aside className="flex w-full max-w-xs flex-col justify-between shadow-inner border-slate-400 bg-sidebar">
             <div className="flex flex-col gap-20 p-5 h-full">
                 <div id="logo" className="max-w-[50px]">
                     <Link className='text-5xl' href="/">
@@ -22,7 +22,7 @@ export default function Sidebar() {
                     </Link>
                 </div>
                 <div className='flex flex-col w-full justify-center items-center h-full'>
-                    <Link href="/" className='px-8 py-3 my-2x hover:bg-blue-100 text-xl font-semibold'>
+                    <Link href="/dashboard" className='px-8 py-3 my-2x hover:bg-blue-100 text-xl font-semibold'>
                         Dashboard
                     </Link>
                     <Link href="/freights" className='px-8 py-3 my-2 hover:bg-blue-100 text-xl font-semibold'>

@@ -44,7 +44,7 @@ export default function Home() {
           </Link>
           <Link
             className='text-lg py-3 px-6 border'
-            href="/freights"
+            href="/dashboard"
           >
             Go to Dashboard
           </Link>
