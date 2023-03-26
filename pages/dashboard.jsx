@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import Sidebar from "../components/sidebar.jsx";
+import Sidebar from "../components/Sidebar.jsx";
 import Navbar from "../components/Navbar.jsx";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import prisma from "../lib/prisma.js";
