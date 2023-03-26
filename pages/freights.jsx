@@ -47,6 +47,21 @@ export async function getServerSideProps(context) {
     where: {
       companyId: company.id,
     },
+    include: {
+      Driver: {
+        select: {
+          firstName: true,
+          lastName: true,
+        }
+      },
+      Truck: {
+        select: {
+          make: true,
+          model: true,
+          year: true,
+        }
+      }
+    }
   });
   return {
     props: {

@@ -26,8 +26,8 @@ model Company {
   updatedAt      DateTime  @updatedAt
   companyName    String
   companyAddress String
-  OwnerID        Int
-  User           User      @relation(fields: [OwnerID], references: [id])
+  OwnerId        Int
+  User           User      @relation(fields: [OwnerId], references: [id])
   Driver         Driver[]
   Freight        Freight[]
   Truck          Truck[]
@@ -51,25 +51,27 @@ model Truck {
   year        Int
   color       String
   trailerType String
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   companyID   Int
-  company     Company @relation(fields: [companyID], references: [id])
+  company     Company   @relation(fields: [companyID], references: [id])
+  Freight     Freight[]
 }
 
 model Freight {
   id             Int      @id @default(autoincrement())
   pickupDate     DateTime
   dropDate       DateTime
-  pickupTime     DateTime
-  dropTime       DateTime
   broker         String
   pickupLocation String
   dropLocation   String
   commodity      String
   weight         Float
+  rate           Float
+  completed      Boolean? @default(false)
   driverId       Int
   companyId      Int
+  truckId        Int
   Company        Company  @relation(fields: [companyId], references: [id])
-
-  Driver Driver @relation(fields: [driverId], references: [id])
+  Truck          Truck    @relation(fields: [truckId], references: [id])
+  Driver         Driver   @relation(fields: [driverId], references: [id])
 }
