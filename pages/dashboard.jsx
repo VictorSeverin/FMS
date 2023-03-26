@@ -83,7 +83,7 @@ export default function Freights({ freights }) {
     }
 }
 export async function getServerSideProps(context) {
-    const session = await getSession(context.req, context.res);
+    const session = await getSession(context.req, context.res)
     if (!session?.user) {
         return {
             redirect: {
@@ -93,6 +93,7 @@ export async function getServerSideProps(context) {
         };
     }
     const { user } = session
+    const now = new Date()
     const company = await prisma.company.findMany({
         where: {
             OwnerID: user.id,
@@ -101,6 +102,9 @@ export async function getServerSideProps(context) {
     const freights = await prisma.freight.findMany({
         where: {
             companyId: company.id,
+            dropDate: {
+                gte: now
+            }
         },
         include: {
             Driver: {
