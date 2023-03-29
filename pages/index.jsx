@@ -46,7 +46,7 @@ export default function Home() {
 
             <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
               <li><a>Settings</a></li>
-              {user && <li><a href='/api/auth/logout'>Logout</a></li>}
+              {user && <li><Link href='/api/auth/logout'>Logout</Link></li>}
             </ul>
           </div>
         </div>
@@ -68,8 +68,8 @@ export default function Home() {
         </section>
         <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
           <div className="grid grid-flow-col gap-4">
-            <a className="link link-hover" href='https://www.linkedin.com/in/victor-severin-1a2589233/'>About us</a>
-            <a className="link link-hover" href='mailto:victor.severin7@gmail.com'>Contact</a>
+            <Link className="link link-hover" href='https://www.linkedin.com/in/victor-severin-1a2589233/'>About us</Link>
+            <Link className="link link-hover" href='mailto:victor.severin7@gmail.com'>Contact</Link>
           </div>
           <div>
             <div className="grid grid-flow-col gap-4">
