@@ -25,7 +25,7 @@ export default function Navbar() {
                 </div>
                 <div className="dropdown dropdown-end">
                     <picture className="mr-2 mt-1 h-[40px] w-[40px] overflow-hidden rounded-full" tabIndex={0}>
-                        <img src="https://peprojects.dev/images/portrait.jpg" alt="avatar" />
+                        <Image src="/#" width="25" height="30" alt="avatar" />
                     </picture>
                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                         <li><a>Profile</a></li>
