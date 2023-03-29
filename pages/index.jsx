@@ -40,7 +40,7 @@ export default function Home() {
           <div className="dropdown dropdown-end ">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <Image src={logo} />
+                <Image src={logo} alt="logo" />
               </div>
             </label>
 
