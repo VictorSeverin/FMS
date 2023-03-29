@@ -20,6 +20,7 @@ export default function AddFreight({ drivers }) {
     weight: Yup.number().min(0).max(55000).required('Please enter weight').positive(),
     rate: Yup.number().min(0).required('Please enter rate').positive(),
     companyId: Yup.number().required(),
+    driver: Yup.string().required(),
   });
   const formik = useFormik({
     initialValues: {
@@ -204,13 +205,13 @@ export default function AddFreight({ drivers }) {
                     <span className="label-text">Driver</span>
                   </label>
                   <select className="select select-bordered w-full max-w-xs"
-                    id="driver" value={formik.values.driver}
-                    onChange={formik.handleChange}
                     name="driver"
-                  >
+                    id="driver" value={formik.values.driver}
+                    onChange={formik.handleChange}>
                     {drivers.map((driver) => (
-                      <option key={driver.id}>{driver.firstName + " " + driver.lastName}</option>
+                      <option key={driver.id} value="{driver.firstName}">{driver.firstName + " " + driver.lastName}</option>
                     ))}
+
                   </select>
                 </div>
               </div>
@@ -218,8 +219,8 @@ export default function AddFreight({ drivers }) {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 
