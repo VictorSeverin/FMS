@@ -96,7 +96,7 @@ export async function getServerSideProps(context) {
     const now = new Date()
     const company = await prisma.company.findMany({
         where: {
-            OwnerID: 1,
+            OwnerId: 1,
         },
     });
     const freights = await prisma.freight.findMany({
