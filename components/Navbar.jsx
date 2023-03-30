@@ -2,7 +2,7 @@ import React from 'react'
 import Messages from './icons/Message';
 import Notifications from './icons/Notifications';
 import Image from 'next/image'
-import Link from 'next/Link'
+import Link from 'next/link';
 export default function Navbar() {
     return (
         <div className='w-full bg-white shadow-sm h-12 flex justify-between'>
