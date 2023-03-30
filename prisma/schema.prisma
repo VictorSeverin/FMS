@@ -13,6 +13,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   email     String?   @unique
+  avatarUrl String?
   image     String?
   firstName String?
   lastName  String?
@@ -26,6 +27,7 @@ model Company {
   updatedAt      DateTime  @updatedAt
   companyName    String
   companyAddress String
+  avatarUrl      String?
   OwnerId        Int
   User           User      @relation(fields: [OwnerId], references: [id])
   Driver         Driver[]
@@ -36,11 +38,13 @@ model Company {
 model Driver {
   id         Int       @id @default(autoincrement())
   email      String    @unique
+  avatarUrl  String?
   firstName  String
   lastName   String
   companyId  Int
   miles      Int?
   deliveries Int?
+  experience Int?
   company    Company   @relation(fields: [companyId], references: [id])
   Freight    Freight[]
 }

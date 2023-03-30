@@ -4,15 +4,25 @@ import Sidebar from "../components/Sidebar.jsx";
 import Navbar from "../components/Navbar.jsx";
 import { getSession } from '@auth0/nextjs-auth0';
 import prisma from "../lib/prisma.js";
-
+import DriverCard from "../components/DriverCard.jsx";
 //import Navbar from "../src/components/Navbar.jsx";
 export default function Drivers({ drivers }) {
   return (
     <div className="flex" id="site-content">
       <Sidebar />
-      <div className="bg-gray-100 w-full" onClick={console.log(drivers)}>
+      <div className="bg-gray-100 w-full overflow-y-scroll" onClick={console.log(drivers)}>
         <Navbar />
-        Drivers
+        <div className="flex items-center justify-between">
+          <h1 className="text-4xl font-semibold px-12 py-8">Drivers</h1>
+          <button className="btn bg-sky-600 mx-12">Add Driver</button>
+        </div>
+        <div className="grid grid-wrap grid-cols-12">
+          {drivers.map((driver) => (
+            <>
+              <DriverCard driver={driver} />
+            </>
+          ))}
+        </div>
       </div>
     </div>
   );

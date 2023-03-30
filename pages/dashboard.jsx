@@ -22,7 +22,7 @@ export default function Freights({ freights }) {
             <div className="flex" id="site-content">
                 <Sidebar />
                 <div className="bg-gray-100 w-full" onClick={console.log(freights)}>
-                    <Navbar />
+                    <Navbar user={user} />
                     <div className="w-full flex justify-around p-10">
                         <div className="stats shadow">
                             <div className="stat flex justify-center items-center flex-col">
