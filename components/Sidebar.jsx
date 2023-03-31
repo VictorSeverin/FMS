@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
-
+import logo from "../public/logo-white-nobg.png"
+import Image from 'next/image';
 export default function Sidebar() {
     const [date, setDate] = useState(null);
     const [time, setTime] = useState(null);
@@ -16,9 +17,9 @@ export default function Sidebar() {
     return (
         <aside className="flex w-full max-w-xs flex-col justify-between border-r bg-gray-900 border-gray-300 bg-sidebar">
             <div className="flex flex-col gap-20 p-5 h-full">
-                <div id="logo" className="max-w-[50px]">
-                    <Link className='text-5xl text-white' href="/">
-                        FMS
+                <div id="logo" className="max-w-[100px]">
+                    <Link href="/" className=''>
+                        <Image src={logo} width="100" height="100" />
                     </Link>
                 </div>
                 <div className='flex flex-col w-full justify-center items-start ml-10 h-full'>
