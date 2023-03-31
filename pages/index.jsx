@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import logo from "../public/logo-black.png"
+import logoFav from "../public/logo.ico"
 import favicon from "../public/favicon.ico"
 const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
@@ -25,7 +26,7 @@ export default function Home() {
         <title>FMS</title>
         <meta name="description" content="Freight Management System" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={logo} />
+        <link rel="icon" href="./logo.ico" />
       </Head>
       <header className="navbar bg-base-100">
         <div className="flex-1">
