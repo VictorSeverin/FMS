@@ -19,7 +19,7 @@ export default function Sidebar() {
             <div className="flex flex-col gap-20 p-5 h-full">
                 <div id="logo" className="max-w-[100px]">
                     <Link href="/" className=''>
-                        <Image src={logo} width="100" height="100" />
+                        <Image src={logo} width="100" height="100" alt='logo' />
                     </Link>
                 </div>
                 <div className='flex flex-col w-full justify-center items-start ml-10 h-full'>

@@ -6,13 +6,16 @@ import { useFormik, Field, ErrorMessage, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import prisma from "../lib/prisma.js";
 import { getSession } from '@auth0/nextjs-auth0';
+import axios from 'axios';
+import { useRouter } from "next/router";
 
-export default function AddFreight({ drivers }) {
+export default function AddFreight({ data }) {
+  const router = useRouter();
+
   const validationSchema = Yup.object().shape({
     pickupLocation: Yup.string().required('Pick up Location is required'),
     dropLocation: Yup.string().required('Drop Location is required'),
-    pickupTime: Yup.string(),
-    dropTime: Yup.string(),
+
     pickupDate: Yup.date().required('Please select Pickup Date'),
     dropDate: Yup.date().required('Please select Pickup Date'),
     broker: Yup.string().required('Please select broker'),
@@ -20,34 +23,43 @@ export default function AddFreight({ drivers }) {
     weight: Yup.number().min(0).max(55000).required('Please enter weight').positive(),
     rate: Yup.number().min(0).required('Please enter rate').positive(),
     companyId: Yup.number().required(),
-    driver: Yup.string().required(),
+    driverId: Yup.string().required(),
+    truckId: Yup.string().required(),
   });
   const formik = useFormik({
     initialValues: {
       pickupLocation: '',
       dropLocation: '',
-      pickupTime: '',
-      dropTime: '',
       pickupDate: '',
       dropDate: '',
       broker: '',
       commodity: '',
       weight: '',
       rate: '',
-      driver: '',
+      driverId: '',
       companyId: 1,
-
+      completed: false,
+      truckId: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
-
+      addFreigth(values)
+      //console.log(typeof values.driverId)
     },
   });
+  async function addFreigth(freight) {
+    const res = await axios.post('/api/freight', {
+      freight
+    })
+    console.log(res)
+    router.push("/freights");
+  }
+  const currentDate = new Date();
+  const currentTime = currentDate.toTimeString([], { hour: '2-digit', minute: '2-digit', });
   return (
     <div className="flex" id="site-content">
       <Sidebar />
-      <div className="bg-gray-100 w-full overflow-y-scroll" >
+      <div className="bg-gray-100 w-full overflow-y-scroll">
         <Navbar />
         <div>
           <h1 className="text-4xl mx-20 my-12">New Freight</h1>
@@ -65,19 +77,19 @@ export default function AddFreight({ drivers }) {
                       </label>
                       <input
                         className="px-5 py-3 border rounded-xl"
-                        type="date"
+                        type="datetime-local"
                         id="pickupDate"
                         name="pickupDate"
                         value={formik.values.pickupDate}
                         onChange={formik.handleChange} />
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="label mt-5">
                         <span className="label-text">Pick up Time</span>
                       </label>
-                      <input type="time" id="pickupTime" name="pickupTime" className="px-5 py-3 border rounded-xl" />
+                      <input type="time" id="pickupTime" name="pickupTime" value={formik.values.pickupTime} onChange={formik.handleChange} className="px-5 py-3 border rounded-xl" />
                       {formik.errors.pickupTime ? <div className="text-red-500">{formik.errors.pickupTime}</div> : null}
-                    </div>
+                    </div> */}
                   </div>
 
                   <label className="label mt-5">
@@ -105,19 +117,23 @@ export default function AddFreight({ drivers }) {
                       </label>
                       <input
                         className="px-5 py-3 border rounded-xl"
-                        type="date"
+                        type="datetime-local"
                         id="dropDate"
                         name="dropDate"
                         value={formik.values.dropDate}
                         onChange={formik.handleChange} />
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="label mt-5">
                         <span className="label-text">Drop Time</span>
                       </label>
-                      <input type="time" id="dropTime" name="dropTime" className="px-5 py-3 border rounded-xl" />
+                      <input type="time" id="dropTime" name="dropTime"
+                        value={formik.values.dropTime}
+                        className="px-5 py-3 border rounded-xl"
+                        onChange={formik.handleChange}
+                      />
                       {formik.errors.dropTime ? <div className="text-red-500">{formik.errors.dropTime}</div> : null}
-                    </div>
+                    </div> */}
                   </div>
 
                   <label className="label mt-5">
@@ -205,13 +221,32 @@ export default function AddFreight({ drivers }) {
                     <span className="label-text">Driver</span>
                   </label>
                   <select className="select select-bordered w-full max-w-xs"
-                    name="driver"
-                    id="driver" value={formik.values.driver}
+                    name="driverId"
+                    id="driverId"
+                    value={formik.values.driverId}
                     onChange={formik.handleChange}>
-                    {drivers.map((driver) => (
-                      <option key={driver.id} value="{driver.firstName}">{driver.firstName + " " + driver.lastName}</option>
+                    <option value='' label="Select" disabled></option>
+                    {data.drivers.map((driver) => (
+                      <>
+                        <option value={driver.id} label={driver.firstName + " " + driver.lastName}></option>
+                      </>
                     ))}
+                  </select>
+                </div>
 
+                <div>
+                  <label className="label mt-5">
+                    <span className="label-text">Truck</span>
+                  </label>
+                  <select className="select select-bordered w-full max-w-xs"
+                    name="truckId"
+                    id="truckId"
+                    value={formik.values.truckId}
+                    onChange={formik.handleChange}>
+                    <option value='' label="Select"></option>
+                    {data.trucks.map((truck) => (
+                      <option value={truck.id} label={truck.year + " " + truck.make + " " + truck.model}></option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -245,9 +280,14 @@ export async function getServerSideProps(context) {
       companyId: company.id,
     },
   });
+  const trucks = await prisma.truck.findMany({
+    where: {
+      companyId: company.id,
+    }
+  })
   return {
     props: {
-      drivers: JSON.parse(JSON.stringify(drivers))
+      data: JSON.parse(JSON.stringify({ drivers, trucks }))
     }
   }
 }
