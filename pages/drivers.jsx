@@ -9,20 +9,29 @@ import { useState } from "react";
 import AddDriverModal from "../components/AddDriverModal.jsx";
 //import Navbar from "../src/components/Navbar.jsx";
 export default function Drivers({ drivers }) {
+  const [driverState, setDriverState] = useState(drivers)
+  const addDriver = (newDriver) => {
+    setDriverState([...driverState, newDriver])
+    console.log(driverState)
+  }
+  function removeDriver(driverId) {
+    const updatedList = driverState.filter((driver) => driver.id != driverId)
+    setDriverState(updatedList)
+  }
   return (
     <div className="flex" id="site-content">
       <Sidebar />
       <div className="bg-gray-100 w-full overflow-y-scroll" onClick={console.log(drivers)}>
         <Navbar />
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           <h1 className="text-4xl font-semibold px-12 py-8">Drivers</h1>
-          <AddDriverModal />
+          <AddDriverModal addDriver={addDriver} />
         </div>
 
-        <div className="grid grid-wrap grid-cols-12">
-          {drivers.map((driver) => (
+        <div className="grid grid-wrap grid-cols-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {driverState.map((driver) => (
             <>
-              <DriverCard driver={driver} />
+              <DriverCard driver={driver} removeDriver={removeDriver} />
             </>
           ))}
         </div>

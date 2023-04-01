@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { useFormik, Field, ErrorMessage, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-export default function AddDriverModal() {
+export default function AddDriverModal({ addDriver }) {
     const [showModal, setShowModal] = useState(false)
 
     async function postDriver(values) {
         const res = await axios.post('/api/driver', {
             values
         })
+        addDriver(res.data)
         console.log(res);
     }
 
