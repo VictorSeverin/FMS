@@ -9,7 +9,10 @@ export default async function handler(req, res) {
                 avatarUrl: values.avatarUrl,
                 firstName: values.firstName,
                 lastName: values.lastName,
-                companyId: 0,
+                companyId: 1,
+                miles: 0,
+                deliveries: 0,
+                experience: parseInt(values.experience),
             }
         })
         res.status(200).json(driver)

@@ -45,7 +45,7 @@ model Driver {
   miles      Int?
   deliveries Int?
   experience Int?
-  company    Company   @relation(fields: [companyId], references: [id])
+  Company    Company   @relation(fields: [companyId], references: [id])
   Freight    Freight[]
 }
 
@@ -57,7 +57,7 @@ model Truck {
   trailerType String
   id          Int       @id @default(autoincrement())
   companyID   Int
-  company     Company   @relation(fields: [companyID], references: [id])
+  Company     Company   @relation(fields: [companyID], references: [id])
   Freight     Freight[]
 }
 

@@ -9,8 +9,8 @@ export default function DriverCard({ driver, removeDriver }) {
                 id: driverId,
             }
         })
-        removeDriver(res.data.id)
-        console.log(res);
+        console.log(driverId)
+        removeDriver(driverId)
     }
     return (
         <div className="m-10 col-span-1 card w-80 bg-base-100 shadow-xl flex flex-col items-center">
