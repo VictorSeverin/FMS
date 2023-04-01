@@ -83,13 +83,7 @@ export default function AddFreight({ data }) {
                         value={formik.values.pickupDate}
                         onChange={formik.handleChange} />
                     </div>
-                    {/* <div>
-                      <label className="label mt-5">
-                        <span className="label-text">Pick up Time</span>
-                      </label>
-                      <input type="time" id="pickupTime" name="pickupTime" value={formik.values.pickupTime} onChange={formik.handleChange} className="px-5 py-3 border rounded-xl" />
-                      {formik.errors.pickupTime ? <div className="text-red-500">{formik.errors.pickupTime}</div> : null}
-                    </div> */}
+
                   </div>
 
                   <label className="label mt-5">
@@ -123,17 +117,7 @@ export default function AddFreight({ data }) {
                         value={formik.values.dropDate}
                         onChange={formik.handleChange} />
                     </div>
-                    {/* <div>
-                      <label className="label mt-5">
-                        <span className="label-text">Drop Time</span>
-                      </label>
-                      <input type="time" id="dropTime" name="dropTime"
-                        value={formik.values.dropTime}
-                        className="px-5 py-3 border rounded-xl"
-                        onChange={formik.handleChange}
-                      />
-                      {formik.errors.dropTime ? <div className="text-red-500">{formik.errors.dropTime}</div> : null}
-                    </div> */}
+
                   </div>
 
                   <label className="label mt-5">
@@ -228,7 +212,7 @@ export default function AddFreight({ data }) {
                     <option value='' label="Select" disabled></option>
                     {data.drivers.map((driver) => (
                       <>
-                        <option value={driver.id} label={driver.firstName + " " + driver.lastName}></option>
+                        <option key={driver.id} value={driver.id} label={driver.firstName + " " + driver.lastName}></option>
                       </>
                     ))}
                   </select>
@@ -245,7 +229,7 @@ export default function AddFreight({ data }) {
                     onChange={formik.handleChange}>
                     <option value='' label="Select"></option>
                     {data.trucks.map((truck) => (
-                      <option value={truck.id} label={truck.year + " " + truck.make + " " + truck.model}></option>
+                      <option key={truck.id} value={truck.id} label={truck.year + " " + truck.make + " " + truck.model}></option>
                     ))}
                   </select>
                 </div>
