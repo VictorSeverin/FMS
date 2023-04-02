@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-
+import Image from 'next/image';
 export default function DriverCard({ driver, removeDriver }) {
     async function deleteDriver() {
         const driverId = driver.id
@@ -22,7 +22,7 @@ export default function DriverCard({ driver, removeDriver }) {
             </div>
             <div className="avatar mt-5">
                 <div className="w-32 rounded-full">
-                    <img src={driver.avatarUrl} />
+                    <Image src={driver.avatarUrl} width="30" height="30" />
                 </div>
             </div>
             <div className="card-body items-center text-center">

@@ -30,7 +30,7 @@ export default function Home() {
       </Head>
       <header className="navbar bg-base-100">
         <div className="flex-1">
-          <Image src={logo} width="70" height="70" className='ml-5' />
+          <Image src={logo} width="70" height="70" className='ml-5' alt='Logo' />
         </div>
         <div className="flex">
           {user &&
