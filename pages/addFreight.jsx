@@ -59,7 +59,7 @@ export default function AddFreight({ data }) {
   return (
     <div className="flex" id="site-content">
       <Sidebar />
-      <div className="bg-gray-100 w-full overflow-y-scroll">
+      <div className="bg-gray-100 w-full overflow-y-scroll" onClick={console.log(data)}>
         <Navbar />
         <div>
           <h1 className="text-4xl mx-20 my-12">New Freight</h1>
@@ -271,7 +271,7 @@ export async function getServerSideProps(context) {
   })
   return {
     props: {
-      data: JSON.parse(JSON.stringify({ drivers, trucks }))
+      data: JSON.parse(JSON.stringify({ company, drivers, trucks }))
     }
   }
 }

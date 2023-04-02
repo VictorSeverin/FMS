@@ -54,7 +54,7 @@ export async function getServerSideProps(context) {
   const { user } = session
   const company = await prisma.company.findMany({
     where: {
-      OwnerId: 1,
+      OwnerId: user.id,
     },
   });
   const drivers = await prisma.driver.findMany({

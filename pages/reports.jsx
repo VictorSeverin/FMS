@@ -7,14 +7,15 @@ import { handleAuth } from "@auth0/nextjs-auth0";
 //import Navbar from "../src/components/Navbar.jsx";
 export default function Reports() {
   async function handleClick() {
-    const res = await axios.post('/api/auth/hook', {
-      email: "blobsasssss@gmail.com",
-      firstName: "Dev",
-      lastName: "test",
-      avatarUrl: "url",
-      secret: 1,
-    })
-    console.log(res.data)
+    // const res = await axios.post('/api/auth/hook', {
+    //   email: "blobsasssss@gmail.com",
+    //   firstName: "Dev",
+    //   lastName: "test",
+    //   avatarUrl: "url",
+    //   secret: 1,
+    // })
+
+    console.log(process.env.AUTH0_HOOK_SECRET)
   }
   return (
     <div className="flex" id="site-content">

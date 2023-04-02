@@ -23,22 +23,22 @@ export default function Freights({ freights }) {
                 <Sidebar />
                 <div className="bg-gray-100 w-full" onClick={console.log(freights)}>
                     <Navbar user={user} />
-                    <div className="w-full flex justify-around p-10">
-                        <div className="stats shadow">
+                    <div className="w-full flex justify-around p-10 flex-wrap ">
+                        <div className="stats shadow my-4">
                             <div className="stat flex justify-center items-center flex-col">
                                 <div className="stat-title">Current Freights</div>
                                 <div className="stat-value">1</div>
                                 <div className="stat-desc">21% more than last week</div>
                             </div>
                         </div>
-                        <div className="stats shadow">
+                        <div className="stats shadow my-4">
                             <div className="stat flex justify-center items-center flex-col">
                                 <div className="stat-title">Total Drivers Out</div>
                                 <div className="stat-value">5</div>
                                 <div className="stat-desc">21% more than last month</div>
                             </div>
                         </div>
-                        <div className="stats shadow">
+                        <div className="stats shadow my-4">
                             <div className="stat flex justify-center items-center flex-col">
                                 <div className="stat-title">Total Trucks Running</div>
                                 <div className="stat-value">5</div>
@@ -63,17 +63,21 @@ export default function Freights({ freights }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {freights.map((freight) => (
-                                    <tr key={freight.id}>
-                                        <th>{freight.id}</th>
-                                        <td>{freight.pickupLocation}</td>
-                                        <td>{freight.dropLocation}</td>
-                                        <td>{freight.pickupDate}</td>
-                                        <td>{freight.dropDate}</td>
-                                        <td>{freight.broker}</td>
-                                        <td>{freight.Driver.firstName + " " + freight.Driver.lastName}</td>
-                                    </tr>
-                                ))}
+                                {freights.length > 0 ?
+                                    freights.map((freight) => (
+                                        <tr key={freight.id}>
+                                            <th>{freight.id}</th>
+                                            <td>{freight.pickupLocation}</td>
+                                            <td>{freight.dropLocation}</td>
+                                            <td>{freight.pickupDate}</td>
+                                            <td>{freight.dropDate}</td>
+                                            <td>{freight.broker}</td>
+                                            <td>{freight.Driver.firstName + " " + freight.Driver.lastName}</td>
+                                        </tr>
+                                    ))
+                                    :
+                                    <div>No Freights</div>
+                                }
                             </tbody>
                         </table>
                     </div>
