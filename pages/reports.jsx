@@ -8,9 +8,13 @@ import { handleAuth } from "@auth0/nextjs-auth0";
 export default function Reports() {
   async function handleClick() {
     const res = await axios.post('/api/auth/hook', {
-      email: "blobsas@gmail.com"
+      email: "blobsasssss@gmail.com",
+      firstName: "Dev",
+      lastName: "test",
+      avatarUrl: "url",
+      secret: 1,
     })
-    console.log(res)
+    console.log(res.data)
   }
   return (
     <div className="flex" id="site-content">
