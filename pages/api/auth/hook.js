@@ -6,12 +6,9 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(403).json({ message: 'Method not allowed' });
     }
-    // // 2
-    // if (secret !== process.env.AUTH0_HOOK_SECRET) {
-    //     return res.status(403).json({ message: `You must provide the secret 🤫` });
-    // }
-    // // 3
-    // 4
+    if (secret !== process.env.AUTH0_HOOK_SECRET) {
+        return res.status(403).json({ message: `You must provide the secret 🤫` });
+    }
     if (email) {
         const user = await prisma.user.create({
             data: {
