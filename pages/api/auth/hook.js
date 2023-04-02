@@ -14,13 +14,14 @@ const handler = async (req, res) => {
     // // 3
     if (email) {
         // 4
-        await prisma.user.create({
+        const res = await prisma.user.create({
             data: {
                 email: email,
             },
         });
         return res.status(200).json({
             message: `User with email: ${email} has been created successfully!`,
+            user: res,
         });
     }
 };
