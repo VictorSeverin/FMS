@@ -8,7 +8,7 @@ import { handleAuth } from "@auth0/nextjs-auth0";
 export default function Reports() {
   async function handleClick() {
     const res = await axios.post('/api/auth/hook', {
-      email: "blob@gmail.com"
+      email: "blobsas@gmail.com"
     })
     console.log(res)
   }
