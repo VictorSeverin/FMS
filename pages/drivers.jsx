@@ -8,7 +8,8 @@ import DriverCard from "../components/DriverCard.jsx";
 import { useState } from "react";
 import AddDriverModal from "../components/AddDriverModal.jsx";
 import { useUser } from '@auth0/nextjs-auth0/client';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Drivers({ data }) {
   const [driverState, setDriverState] = useState(data.drivers)
   const { user, error, isLoading } = useUser();

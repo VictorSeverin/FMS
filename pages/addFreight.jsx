@@ -62,7 +62,7 @@ export default function AddFreight({ data }) {
     <div className="flex" id="site-content">
       <Sidebar />
       <div className="bg-gray-100 w-full overflow-y-scroll" onClick={console.log(data)}>
-        <Navbar />
+        <Navbar user={data.owner} />
         <div>
           <h1 className="text-4xl mx-20 my-12">New Freight</h1>
           <form onSubmit={formik.handleSubmit}>
@@ -256,24 +256,46 @@ export async function getServerSideProps(context) {
     };
   }
   const { user } = session
-  const company = await prisma.company.findMany({
+  const owner = await prisma.user.findFirst({
     where: {
-      OwnerID: user.id,
-    },
-  });
-  const drivers = await prisma.driver.findMany({
-    where: {
-      companyId: company.id,
-    },
-  });
-  const trucks = await prisma.truck.findMany({
-    where: {
-      companyId: company.id,
+      email: user.email,
     }
   })
-  return {
-    props: {
-      data: JSON.parse(JSON.stringify({ company, drivers, trucks }))
+  try {
+    const company = await prisma.company.findMany({
+      where: {
+        OwnerId: owner.id,
+      },
+    });
+    if (company.length == 0) {
+      return {
+        props: {
+          data: JSON.parse(JSON.stringify({ noCompany, owner }))
+        }
+      }
     }
+    const drivers = await prisma.driver.findMany({
+      where: {
+        companyId: company.id,
+      },
+    });
+    const trucks = await prisma.truck.findMany({
+      where: {
+        companyId: company.id,
+      }
+    })
+    return {
+      props: {
+        data: JSON.parse(JSON.stringify({ company, drivers, trucks, owner }))
+      }
+    }
+  }
+  catch {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
   }
 }

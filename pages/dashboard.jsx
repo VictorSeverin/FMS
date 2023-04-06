@@ -78,7 +78,7 @@ export default function Freights({ data }) {
                                             </tr>
                                         ))
                                         :
-                                        <div>No Freights</div>
+                                        <tr>No Freights</tr>
                                     }
                                 </tbody>}
                         </table>

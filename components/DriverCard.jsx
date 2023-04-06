@@ -1,16 +1,43 @@
 import React from 'react'
 import axios from 'axios';
 import Image from 'next/image';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function DriverCard({ driver, removeDriver }) {
     async function deleteDriver() {
         const driverId = driver.id
-        const res = await axios.delete('/api/driver', {
-            data: {
-                id: driverId,
+        try {
+            const res = await axios.delete('/api/driver', {
+                data: {
+                    id: driverId,
+                }
+            })
+            if (res.status >= 200 && res.status < 300) {
+                removeDriver(driverId)
+                toast.success(' Driver Succesfully Deleted', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             }
-        })
-        console.log(driverId)
-        removeDriver(driverId)
+        }
+        catch {
+            toast.error('Could not remove driver', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
     return (
         <div className="m-10 col-span-1 card w-80 bg-base-100 shadow-xl flex flex-col items-center">
@@ -47,6 +74,18 @@ export default function DriverCard({ driver, removeDriver }) {
                     <span className="stat-value text-xl">{driver.experience ? driver.experience + " years" : 0}</span>
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
     )
 }

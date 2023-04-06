@@ -3,15 +3,43 @@ import { useState } from 'react'
 import { useFormik, Field, ErrorMessage, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function AddDriverModal({ addDriver }) {
     const [showModal, setShowModal] = useState(false)
 
     async function postDriver(values) {
-        const res = await axios.post('/api/driver', {
-            values
-        })
-        addDriver(res.data)
-        console.log(res);
+
+        try {
+            const res = await axios.post('/api/driver', {
+                values
+            })
+            if (res.status >= 200 && res.status < 300) {
+                addDriver(res.data)
+                toast.success(' Driver Succesfully Added', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        }
+        catch {
+            toast.error('Could not add driver', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
     }
 
     const validationSchema = Yup.object().shape({
@@ -169,6 +197,18 @@ export default function AddDriverModal({ addDriver }) {
                                     </div>
                                 </form>
                             </div>
+                            <ToastContainer
+                                position="bottom-right"
+                                autoClose={3000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                theme="light"
+                            />
                         </div>
                     </div>
                     <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
