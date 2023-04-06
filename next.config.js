@@ -10,6 +10,18 @@ const nextConfig = {
         port: '',
         pathname: '/img/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/a/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'https://s.gravatar.com',
+        port: '',
+        pathname: '/avatar/**',
+      },
     ],
   },
 }

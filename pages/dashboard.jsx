@@ -5,12 +5,13 @@ import Navbar from "../components/Navbar.jsx";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import prisma from "../lib/prisma.js";
 import { getSession } from '@auth0/nextjs-auth0';
-import { faDroplet, faGauge, faWind, faTemperatureHalf, FaUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { userContext } from "../Contexts/userContext.js";
+import { useContext } from "react";
+import CreateCompanyModal from "../components/CreateCompanyModal.jsx"
 //import Navbar from "../src/components/Navbar.jsx";
-export default function Freights({ freights }) {
+export default function Freights({ data }) {
     const { user, error, isLoading } = useUser();
+    //const { owner } = useContext(userContext)
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -21,8 +22,8 @@ export default function Freights({ freights }) {
         return (
             <div className="flex" id="site-content">
                 <Sidebar />
-                <div className="bg-gray-100 w-full" onClick={console.log(freights)}>
-                    <Navbar user={user} />
+                <div className="bg-gray-100 h-screen w-full " onClick={console.log(data)}>
+                    <Navbar user={data.owner} />
                     <div className="w-full flex justify-around p-10 flex-wrap ">
                         <div className="stats shadow my-4">
                             <div className="stat flex justify-center items-center flex-col">
@@ -62,23 +63,24 @@ export default function Freights({ freights }) {
                                     <th>Driver</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {freights.length > 0 ?
-                                    freights.map((freight) => (
-                                        <tr key={freight.id}>
-                                            <th>{freight.id}</th>
-                                            <td>{freight.pickupLocation}</td>
-                                            <td>{freight.dropLocation}</td>
-                                            <td>{freight.pickupDate}</td>
-                                            <td>{freight.dropDate}</td>
-                                            <td>{freight.broker}</td>
-                                            <td>{freight.Driver.firstName + " " + freight.Driver.lastName}</td>
-                                        </tr>
-                                    ))
-                                    :
-                                    <div>No Freights</div>
-                                }
-                            </tbody>
+                            {data.noCompany ? <CreateCompanyModal show={true} owner={data.owner} /> :
+                                <tbody>
+                                    {data.freights && data.freights.length > 0 ?
+                                        data.freights.map((freight) => (
+                                            <tr key={freight.id}>
+                                                <th>{freight.id}</th>
+                                                <td>{freight.pickupLocation}</td>
+                                                <td>{freight.dropLocation}</td>
+                                                <td>{freight.pickupDate}</td>
+                                                <td>{freight.dropDate}</td>
+                                                <td>{freight.broker}</td>
+                                                <td>{freight.Driver.firstName + " " + freight.Driver.lastName}</td>
+                                            </tr>
+                                        ))
+                                        :
+                                        <div>No Freights</div>
+                                    }
+                                </tbody>}
                         </table>
                     </div>
                 </div>
@@ -98,37 +100,59 @@ export async function getServerSideProps(context) {
     }
     const { user } = session
     const now = new Date()
-    const company = await prisma.company.findMany({
+    const owner = await prisma.user.findFirst({
         where: {
-            OwnerId: 1,
-        },
-    });
-    const freights = await prisma.freight.findMany({
-        where: {
-            companyId: company.id,
-            dropDate: {
-                gte: now
+            email: user.email,
+        }
+    })
+    try {
+        const company = await prisma.company.findMany({
+            where: {
+                OwnerId: owner.id,
+            },
+        });
+        if (company.length == 0) {
+            return {
+                props: {
+                    data: JSON.parse(JSON.stringify({ noCompany, owner }))
+                }
             }
-        },
-        include: {
-            Driver: {
-                select: {
-                    firstName: true,
-                    lastName: true,
+        }
+        const freights = await prisma.freight.findMany({
+            where: {
+                companyId: company.id,
+                dropDate: {
+                    gte: now
                 }
             },
-            Truck: {
-                select: {
-                    make: true,
-                    model: true,
-                    year: true,
+            include: {
+                Driver: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                    }
+                },
+                Truck: {
+                    select: {
+                        make: true,
+                        model: true,
+                        year: true,
+                    }
                 }
             }
+        });
+        return {
+            props: {
+                data: JSON.parse(JSON.stringify({ company, owner }))
+            }
         }
-    });
-    return {
-        props: {
-            freights: JSON.parse(JSON.stringify(freights))
+    } catch {
+        const noCompany = true;
+        return {
+            props: {
+                data: JSON.parse(JSON.stringify({ noCompany, owner }))
+            }
         }
     }
+
 }

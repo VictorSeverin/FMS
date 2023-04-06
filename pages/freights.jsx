@@ -6,9 +6,11 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import prisma from "../lib/prisma.js";
 import { getSession } from '@auth0/nextjs-auth0';
 import Link from "next/link.js";
+import { useState } from "react";
 
 //import Navbar from "../src/components/Navbar.jsx";
-export default function Freights({ freights }) {
+export default function Freights({ data }) {
+  const [freights, setFreights] = useState(data.freights)
   const { user, error, isLoading } = useUser();
   if (isLoading) {
     return <div>Loading...</div>;
@@ -20,8 +22,8 @@ export default function Freights({ freights }) {
     return (
       <div className="flex" id="site-content">
         <Sidebar />
-        <div className="bg-gray-100 w-full overflow-y-scroll" onClick={console.log(freights)}>
-          <Navbar />
+        <div className="bg-gray-100 w-full overflow-y-scroll" onClick={console.log(data)}>
+          <Navbar user={data.owner} />
           <div>
             <div className="flex items-center justify-between">
               <h1 className="text-4xl mx-20 my-12">All Freights</h1>
@@ -88,34 +90,58 @@ export async function getServerSideProps(context) {
     };
   }
   const { user } = session
-  const company = await prisma.company.findMany({
+  const owner = await prisma.user.findFirst({
     where: {
-      OwnerID: user.id,
-    },
-  });
-  const freights = await prisma.freight.findMany({
-    where: {
-      companyId: company.id,
-    },
-    include: {
-      Driver: {
-        select: {
-          firstName: true,
-          lastName: true,
-        }
+      email: user.email,
+    }
+  })
+  try {
+    const company = await prisma.company.findMany({
+      where: {
+        OwnerId: owner.id,
       },
-      Truck: {
-        select: {
-          make: true,
-          model: true,
-          year: true,
+    });
+    if (!company) {
+      return {
+        redirect: {
+          destination: '/dashboard',
+          permanent: false,
+        },
+      };
+    }
+    const freights = await prisma.freight.findMany({
+      where: {
+        companyId: company[0].id,
+      },
+      include: {
+        Driver: {
+          select: {
+            firstName: true,
+            lastName: true,
+          }
+        },
+        Truck: {
+          select: {
+            make: true,
+            model: true,
+            year: true,
+          }
         }
       }
-    }
-  });
-  return {
-    props: {
-      freights: JSON.parse(JSON.stringify(freights))
+    });
+    return {
+      props: {
+        data: JSON.parse(JSON.stringify({ freights, owner, company }))
+      }
     }
   }
+  catch {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
+  }
+
 }

@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function Sidebar() {
     const [date, setDate] = useState(null);
     const [time, setTime] = useState(null);
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(true)
     useEffect(() => {
         // load the date client side... to prevent server hydration bug
         const newDate = new Date();
@@ -16,7 +16,7 @@ export default function Sidebar() {
     const { user, error, isLoading } = useUser();
     return (
         <>
-            {isOpen ? <aside className="flex w-full max-w-xs flex-col justify-between border-r bg-gray-900 border-gray-300 bg-sidebar hidden lg:block md:block">
+            {isOpen ? <aside className="flex w-full max-w-xs flex-col justify-between border-r bg-gray-900 border-gray-300 bg-sidebars">
                 <div className="flex flex-col gap-20 p-5 h-full">
                     <div id="logo" className="flex justify-between">
                         <Link href="/" className=''>

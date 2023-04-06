@@ -15,7 +15,6 @@ export default async function handler(req, res) {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
-                companyId: 1,
                 avatarUrl: avatarUrl
             },
         });

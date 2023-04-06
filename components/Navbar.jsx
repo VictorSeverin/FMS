@@ -3,7 +3,7 @@ import Messages from './icons/Message';
 import Notifications from './icons/Notifications';
 import Image from 'next/image'
 import Link from 'next/link';
-export default function Navbar() {
+export default function Navbar({ user }) {
     return (
         <div className='w-full bg-white shadow-sm h-12 flex justify-between'>
             <div className="form-control">
@@ -25,9 +25,10 @@ export default function Navbar() {
                 </div>
                 <div className="dropdown dropdown-end">
                     <picture className="mr-2 mt-1 h-[40px] w-[40px] overflow-hidden rounded-full" tabIndex={0}>
-                        <Image src="https://this-person-does-not-exist.com/img/avatar-gen5b74486dd3c02a1ab08ea60d66f0c688.jpg" width="25" height="30" alt="avatar" />
+                        <Image src={user.avatarUrl} width="25" height="30" alt="avatar" />
                     </picture>
                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a>{user.email}</a></li>
                         <li><a>Profile</a></li>
                         <li><a>Settings</a></li>
                         <li><Link href="api/auth/logout">Logout</Link></li>

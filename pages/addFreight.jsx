@@ -8,9 +8,11 @@ import prisma from "../lib/prisma.js";
 import { getSession } from '@auth0/nextjs-auth0';
 import axios from 'axios';
 import { useRouter } from "next/router";
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function AddFreight({ data }) {
   const router = useRouter();
+  const { user, error, isLoading } = useUser();
 
   const validationSchema = Yup.object().shape({
     pickupLocation: Yup.string().required('Pick up Location is required'),

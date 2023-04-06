@@ -29,7 +29,7 @@ export default function Home() {
         <link rel="icon" href="./logo.ico" />
       </Head>
       <header className="navbar bg-base-100">
-        <div className="flex-1">
+        <div className="flex-1" onClick={console.log(user)}>
           <Image src={logo} width="70" height="70" className='ml-5' alt='Logo' />
         </div>
         <div className="flex">
@@ -42,7 +42,7 @@ export default function Home() {
               <div className="dropdown dropdown-end ">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                   <div className="w-10 rounded-full">
-                    <Image src={favicon} alt="logo" />
+                    <Image src={favicon} alt="logo" width="40" height="40" />
                   </div>
                 </label>
 
