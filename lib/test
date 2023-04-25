@@ -1,0 +1,9 @@
+  addres            String
+  phoneNumber       String
+  hiredDate         DateTime
+  medicalExpiration DateTime
+  licenseNumber     String
+  insuranceNumber   String
+  tankerEndorsed    Boolean
+  hazmatEndorsed    Boolean
+  notes             String?

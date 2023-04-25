@@ -35,17 +35,26 @@ model Company {
 }
 
 model Driver {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  avatarUrl  String?
-  firstName  String
-  lastName   String
-  companyId  Int
-  miles      Int?
-  deliveries Int?
-  experience Int?
-  Company    Company   @relation(fields: [companyId], references: [id])
-  Freight    Freight[]
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  firstName         String
+  lastName          String
+  companyId         Int
+  addres            String
+  phoneNumber       String
+  hiredDate         DateTime
+  medicalExpiration DateTime
+  licenseNumber     String
+  insuranceNumber   String
+  tankerEndorsed    Boolean
+  hazmatEndorsed    Boolean
+  avatarUrl         String?
+  notes             String?
+  miles             Int?
+  deliveries        Int?
+  experience        Int?
+  Company           Company   @relation(fields: [companyId], references: [id])
+  Freight           Freight[]
 }
 
 model Truck {
